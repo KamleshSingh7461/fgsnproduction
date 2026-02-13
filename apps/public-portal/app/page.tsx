@@ -1,3 +1,5 @@
+'use client';
+
 import { Card, Button } from '@fgsn/ui';
 import {
     ArrowRight, Trophy, Tv, Users, Activity, Calendar,
@@ -8,12 +10,10 @@ import Link from 'next/link';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { ScrollStorytelling } from '../components/ScrollStorytelling';
-import { ScoreStrip } from '../components/ScoreStrip';
-import { getLiveMatches } from '@/lib/actions';
+import { LiveScoreStripWrapper } from '../components/LiveScoreStripWrapper';
 import { TransitionCamera } from '../components/TransitionCamera';
 
-export default async function LandingPage() {
-    const matches = await getLiveMatches();
+export default function LandingPage() {
 
     const services = [
         {
@@ -87,7 +87,7 @@ export default async function LandingPage() {
 
 
             {/* Sticky Score Strip */}
-            <ScoreStrip matches={matches} />
+            <LiveScoreStripWrapper />
 
             {/* Hero Section */}
             <header className="relative pt-32 pb-48 px-6 text-center overflow-hidden border-b border-zinc-100 min-h-[90vh] flex items-center justify-center">
