@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Card } from '@fgsn/ui';
 import { ArrowRight, LucideIcon } from 'lucide-react';
@@ -20,11 +20,49 @@ interface Props {
 
 export const ScrollStorytelling: React.FC<Props> = ({ services }) => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        // Detect mobile devices
+        setIsMobile(window.innerWidth < 768);
+    }, []);
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end end"]
     });
 
+    // Mobile: Simple card layout (no heavy animations)
+    if (isMobile) {
+        return (
+            <div className="py-16 px-6 bg-white">
+                <div className="max-w-6xl mx-auto space-y-8">
+                    {services.map((service, index) => (
+                        <Card key={index} className="p-6 border border-zinc-200">
+                            <div className="flex items-start gap-4">
+                                <div className={`p-3 rounded-lg bg-gradient-to-br ${service.color}`}>
+                                    {service.icon}
+                                </div>
+                                <div className="flex-1">
+                                    <h3 className="text-xl font-bold mb-2">{service.title}</h3>
+                                    <p className="text-sm text-zinc-600 mb-3">{service.desc}</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {service.tags.map((tag, i) => (
+                                            <span key={i} className="text-xs px-2 py-1 bg-zinc-100 rounded">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </Card>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
+    // Desktop: Full scroll animation experience
     return (
         <div ref={containerRef} className="relative h-[700vh]">
             <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-white">
