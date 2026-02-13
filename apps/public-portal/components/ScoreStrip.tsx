@@ -58,7 +58,7 @@ export const ScoreStrip: React.FC<Props> = ({ matches }) => {
                                 <Link
                                     key={match.id}
                                     href={`/match/${match.id}`}
-                                    className="flex items-center px-10 border-r border-zinc-100 hover:bg-zinc-50 transition-all h-full group/item relative overflow-hidden"
+                                    className="flex items-center px-10 border-r border-zinc-100 hover:bg-zinc-50 transition-all h-full group/item relative overflow-hidden shrink-0"
                                 >
                                     {/* Subtly animated ticker background on hover */}
                                     <div className="absolute inset-0 bg-indigo-50/0 group-hover/item:bg-indigo-50/50 transition-colors" />

@@ -61,6 +61,13 @@ const ServiceSlide: React.FC<SlideProps> = ({ service, index, total, scrollYProg
         [0, 1, 1, 0]
     );
 
+    // Z-Index: Ensure active slide is on top
+    const zIndex = useTransform(
+        scrollYProgress,
+        [start, end],
+        [1, 0]
+    );
+
     // Scale: Subtle zoom in/out
     const scale = useTransform(
         scrollYProgress,
@@ -84,29 +91,29 @@ const ServiceSlide: React.FC<SlideProps> = ({ service, index, total, scrollYProg
 
     return (
         <motion.div
-            style={{ opacity, scale }}
-            className="absolute inset-0 flex items-center justify-center p-6 pointer-events-none group"
+            style={{ opacity, scale, zIndex }}
+            className="absolute inset-0 flex items-center justify-center p-6 md:p-12 pointer-events-none group"
         >
-            <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center pointer-events-auto">
+            <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center pointer-events-auto h-full lg:h-auto">
                 <motion.div
                     style={{ x: xParallax }}
-                    className="relative order-2 lg:order-1"
+                    className="relative order-2 lg:order-1 z-30"
                 >
                     <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-5 blur-[150px] rounded-full animate-pulse`} />
                     <div className="relative z-10">
                         <div className="flex items-center gap-4 mb-8">
-                            <div className={`p-4 rounded-2xl bg-white border border-zinc-100 text-zinc-900 shadow-xl`}>
+                            <div className={`p-3 md:p-4 rounded-2xl bg-white border border-zinc-100 text-zinc-900 shadow-xl`}>
                                 {service.icon}
                             </div>
-                            <div className="h-px w-24 bg-gradient-to-r from-zinc-200 to-transparent" />
+                            <div className="h-px w-16 md:w-24 bg-gradient-to-r from-zinc-200 to-transparent" />
                         </div>
-                        <h2 className="text-[5rem] md:text-[8rem] font-black tracking-tighter uppercase italic leading-[0.8] mb-12 text-zinc-900">
+                        <h2 className="text-4xl md:text-[5rem] lg:text-[8rem] font-black tracking-tighter uppercase italic leading-[0.9] md:leading-[0.8] mb-6 md:mb-12 text-zinc-900">
                             {service.title}
                         </h2>
-                        <p className="text-xl md:text-2xl text-zinc-400 font-bold uppercase tracking-tight leading-relaxed mb-12 max-w-xl">
+                        <p className="text-sm md:text-xl lg:text-2xl text-zinc-400 font-bold uppercase tracking-tight leading-relaxed mb-6 md:mb-12 max-w-xl">
                             {service.desc}
                         </p>
-                        <div className="flex flex-wrap gap-3 mb-12">
+                        <div className="flex flex-wrap gap-2 md:gap-3 mb-8 md:mb-12">
                             {service.tags.map(tag => (
                                 <span key={tag} className="px-4 py-2 bg-zinc-50 border border-zinc-100 rounded-full text-[10px] font-black uppercase tracking-widest text-zinc-500 group-hover/text-white transition-colors">
                                     {tag}
@@ -119,7 +126,7 @@ const ServiceSlide: React.FC<SlideProps> = ({ service, index, total, scrollYProg
                     </div>
                 </motion.div>
 
-                <div className="relative h-[40vh] lg:h-[70vh] w-full order-1 lg:order-2">
+                <div className="relative h-[30vh] md:h-[40vh] lg:h-[70vh] w-full order-1 lg:order-2 mb-4 lg:mb-0">
                     <motion.div
                         initial={{ rotateY: 20, rotateX: 10 }}
                         whileHover={{ rotateY: 0, rotateX: 0 }}

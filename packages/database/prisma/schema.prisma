@@ -138,3 +138,15 @@ model Comment {
   content   String
   createdAt DateTime @default(now())
 }
+
+model ContactRequest {
+  id           String   @id @default(cuid())
+  name         String
+  email        String
+  phone        String?
+  organization String?
+  message      String
+  status       String   @default("PENDING") // PENDING, RESPONDED, ARCHIVED
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

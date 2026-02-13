@@ -42,3 +42,63 @@ export async function postComment(matchId: string, userName: string, content: st
     revalidatePath(`/match/${matchId}`);
     return comment;
 }
+export async function getAllMatches() {
+    return await prisma.match.findMany({
+        include: {
+            teams: {
+                include: { team: true }
+            },
+            tournament: true
+        },
+        orderBy: { startTime: 'desc' }
+    });
+}
+
+export async function getTournaments() {
+    return await prisma.tournament.findMany({
+        include: {
+            matches: true,
+            teams: true
+        },
+        orderBy: { createdAt: 'desc' }
+    });
+}
+
+export async function getTournamentDetails(id: string) {
+    return await prisma.tournament.findUnique({
+        where: { id },
+        include: {
+            matches: {
+                include: {
+                    teams: {
+                        include: { team: true }
+                    }
+                },
+                orderBy: { startTime: 'desc' }
+            },
+            teams: {
+                include: { team: true }
+            }
+        }
+    });
+}
+
+export async function submitContactRequest(data: {
+    name: string;
+    email: string;
+    phone?: string;
+    organization?: string;
+    message: string;
+}) {
+    // Validate inputs (basic check)
+    if (!data.name || !data.email || !data.message) {
+        throw new Error("Missing required fields");
+    }
+
+    return await prisma.contactRequest.create({
+        data: {
+            ...data,
+            status: 'PENDING'
+        }
+    });
+}
