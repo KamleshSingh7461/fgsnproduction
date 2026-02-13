@@ -91,14 +91,18 @@ export default async function LandingPage() {
 
             {/* Hero Section */}
             <header className="relative pt-32 pb-48 px-6 text-center overflow-hidden border-b border-zinc-100 min-h-[90vh] flex items-center justify-center">
-                {/* Cinematic Video Background */}
+                {/* Cinematic Video Background - Desktop Only */}
                 <div className="absolute inset-0 z-0">
+                    {/* Mobile: Gradient Background */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-zinc-50 via-white to-zinc-100 md:hidden" />
+
+                    {/* Desktop: Video Background */}
                     <video
                         autoPlay
                         muted
                         loop
                         playsInline
-                        className="absolute inset-0 w-full h-full object-cover opacity-[0.6] transition-opacity duration-1000"
+                        className="hidden md:block absolute inset-0 w-full h-full object-cover opacity-[0.6] transition-opacity duration-1000"
                     >
                         <source src="https://fgsn-public-assets.s3.ap-south-1.amazonaws.com/hero-bg.mp4" type="video/mp4" />
                     </video>
