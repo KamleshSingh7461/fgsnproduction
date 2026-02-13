@@ -1,13 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const pathname = usePathname();
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const links = [
         { href: '/matches', label: 'Live Scores' },

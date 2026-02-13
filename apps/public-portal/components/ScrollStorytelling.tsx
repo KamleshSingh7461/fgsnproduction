@@ -21,10 +21,14 @@ interface Props {
 export const ScrollStorytelling: React.FC<Props> = ({ services }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isMobile, setIsMobile] = useState(false);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        // Detect mobile devices
-        setIsMobile(window.innerWidth < 768);
+        setMounted(true);
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        handleResize(); // Initial check
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     const { scrollYProgress } = useScroll({
@@ -32,11 +36,13 @@ export const ScrollStorytelling: React.FC<Props> = ({ services }) => {
         offset: ["start start", "end end"]
     });
 
+    if (!mounted) return <div className="h-[700vh]" />;
+
     // Use shorter scroll height on mobile for better performance
     const scrollHeight = isMobile ? "400vh" : "700vh";
 
     return (
-        <div ref={containerRef} className={`relative h-[${scrollHeight}]`} style={{ height: scrollHeight }}>
+        <div ref={containerRef} className="relative w-full" style={{ height: scrollHeight }}>
             <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-white">
                 {services.map((service, index) => (
                     <ServiceSlide

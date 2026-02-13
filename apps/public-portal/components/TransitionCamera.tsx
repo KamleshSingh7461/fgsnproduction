@@ -5,6 +5,11 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 
 export const TransitionCamera: React.FC = () => {
     const anchorRef = useRef<HTMLDivElement>(null);
+    const [mounted, setMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
 
     // Use target ref for precise scroll tracking at the transition point
     const { scrollYProgress } = useScroll({
@@ -28,6 +33,8 @@ export const TransitionCamera: React.FC = () => {
     const rotateX = useTransform(smoothProgress, [0.4, 1], [20, -20]);
     const z = useTransform(smoothProgress, [0.4, 1], [-200, 2000]);
     const y = useTransform(smoothProgress, [0.4, 1], [300, -300]);
+
+    if (!mounted) return null;
 
     return (
         <div ref={anchorRef} className="relative h-px w-full pointer-events-none -mt-40">
