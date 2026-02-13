@@ -11,3 +11,8 @@ yarn-error.log*
 .vercel
 .turbo
 shared_match_state.json
+
+# Large media assets (handled outside of Git due to GitHub 100MB limit)
+*.mp4
+*.webm
+*.mov

@@ -4,28 +4,28 @@ export function LeadTracker({ data }: { data: any[] }) {
     if (!data || data.length === 0) return null;
 
     return (
-        <div className="h-64 w-full bg-black/40 rounded-xl p-4 border border-white/5">
-            <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-4">Lead Momentum Tracker</h4>
+        <div className="h-64 w-full bg-zinc-50 rounded-xl p-4 border border-zinc-100 shadow-sm">
+            <h4 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-4">Lead Momentum Tracker</h4>
             <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={data}>
                     <defs>
                         <linearGradient id="colorLead" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#6366f1" stopOpacity={0.8} />
-                            <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                            <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.2} />
+                            <stop offset="95%" stopColor="#4f46e5" stopOpacity={0} />
                         </linearGradient>
                         <linearGradient id="colorDeficit" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#ec4899" stopOpacity={0.8} />
-                            <stop offset="95%" stopColor="#ec4899" stopOpacity={0} />
+                            <stop offset="5%" stopColor="#db2777" stopOpacity={0.2} />
+                            <stop offset="95%" stopColor="#db2777" stopOpacity={0} />
                         </linearGradient>
                     </defs>
-                    <XAxis dataKey="time" stroke="#52525b" fontSize={10} tickLine={false} axisLine={false} />
-                    <YAxis stroke="#52525b" fontSize={10} tickLine={false} axisLine={false} />
+                    <XAxis dataKey="time" stroke="#a1a1aa" fontSize={10} tickLine={false} axisLine={false} />
+                    <YAxis stroke="#a1a1aa" fontSize={10} tickLine={false} axisLine={false} />
                     <Tooltip
-                        contentStyle={{ backgroundColor: '#18181b', border: '1px solid #3f3f46', borderRadius: '8px' }}
+                        contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e4e4e7', borderRadius: '8px' }}
                         itemStyle={{ fontSize: '10px', fontWeight: 'bold' }}
-                        labelStyle={{ fontSize: '10px', color: '#a1a1aa' }}
+                        labelStyle={{ fontSize: '10px', color: '#71717a' }}
                     />
-                    <ReferenceLine y={0} stroke="#52525b" strokeDasharray="3 3" />
+                    <ReferenceLine y={0} stroke="#e4e4e7" strokeDasharray="3 3" />
                     <Area
                         type="monotone"
                         dataKey="diff"

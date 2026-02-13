@@ -141,10 +141,10 @@ export function MatchView({ initialMatch }: { initialMatch: any }) {
     };
 
     return (
-        <div className="min-h-screen bg-black text-white px-4 md:px-8 py-6 selection:bg-indigo-500/30">
+        <div className="min-h-screen bg-white text-zinc-900 px-4 md:px-8 py-6 selection:bg-indigo-500/10">
             {/* Minimal Header */}
             <div className="max-w-[1600px] mx-auto flex justify-between items-center mb-6">
-                <Link href="/" className="inline-flex items-center gap-2 text-zinc-500 hover:text-white transition-colors text-[10px] font-black uppercase tracking-widest">
+                <Link href="/" className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-900 transition-colors text-[10px] font-black uppercase tracking-widest">
                     <ChevronLeft className="w-4 h-4" /> Back to matches
                 </Link>
                 <div className="flex items-center gap-6">
@@ -159,7 +159,7 @@ export function MatchView({ initialMatch }: { initialMatch: any }) {
                 {/* Left Column: Stream & Charts */}
                 <div className="lg:col-span-8 space-y-8">
                     {/* Stream Container */}
-                    <div className="relative aspect-video bg-zinc-900 rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
+                    <div className="relative aspect-video bg-zinc-100 rounded-3xl overflow-hidden border border-zinc-200 shadow-xl">
                         {streamId ? (
                             <iframe
                                 src={`https://www.youtube.com/embed/${streamId}?autoplay=1`}
@@ -178,7 +178,7 @@ export function MatchView({ initialMatch }: { initialMatch: any }) {
                                 <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
                                 Live Stream
                             </span>
-                            <span className="px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-[9px] font-black uppercase tracking-widest border border-white/10">
+                            <span className="px-3 py-1 bg-white/60 backdrop-blur-md rounded-full text-[9px] font-black uppercase tracking-widest border border-zinc-200 text-zinc-900">
                                 {liveMatch.sport}
                             </span>
                         </div>
@@ -186,11 +186,11 @@ export function MatchView({ initialMatch }: { initialMatch: any }) {
 
                     {/* Desktop Scoreboard (Condensed) */}
                     {liveMatch.sport === 'volleyball' ? (
-                        <Card variant="solid" className="p-8 bg-zinc-900/40 border-white/5 hidden md:block relative overflow-hidden">
+                        <Card variant="outline" className="p-8 bg-zinc-50/50 border-zinc-200 hidden md:block relative overflow-hidden">
                             <div className="absolute inset-0 bg-gradient-to-r from-blue-900/10 to-red-900/10 pointer-events-none" />
                             <div className="flex items-center justify-between px-8 relative z-10">
                                 <div className="text-center w-64 group">
-                                    <div className="w-20 h-20 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center text-2xl font-black italic mb-3 mx-auto group-hover:border-blue-500/50 transition-all">
+                                    <div className="w-20 h-20 bg-white rounded-2xl border border-zinc-200 flex items-center justify-center text-2xl font-black italic mb-3 mx-auto group-hover:border-blue-500/50 transition-all shadow-sm">
                                         {liveMatch.homeTeam?.shortName || 'HOME'}
                                     </div>
                                     <div className="text-xs font-black uppercase tracking-tighter mb-2">{liveMatch.homeTeam?.name}</div>
@@ -201,62 +201,62 @@ export function MatchView({ initialMatch }: { initialMatch: any }) {
 
                                 <div className="flex flex-col items-center">
                                     <div className="flex items-center gap-10">
-                                        <div className="text-7xl font-black text-white tabular-nums">{(liveMatch.liveData as VolleyballStateDTO)?.score?.home || 0}</div>
+                                        <div className="text-7xl font-black text-zinc-900 tabular-nums">{(liveMatch.liveData as VolleyballStateDTO)?.score?.home || 0}</div>
                                         <div className="flex flex-col items-center">
-                                            <div className="bg-yellow-500 text-black font-black px-4 py-1 rounded text-[10px] uppercase tracking-widest mb-3 shadow-lg shadow-yellow-500/20">
+                                            <div className="bg-yellow-400 text-black font-black px-4 py-1 rounded text-[10px] uppercase tracking-widest mb-3 shadow-lg shadow-yellow-400/20">
                                                 Set {(liveMatch.liveData as VolleyballStateDTO)?.currentSet || 1}
                                             </div>
-                                            <div className="text-zinc-600 text-3xl font-black">:</div>
+                                            <div className="text-zinc-200 text-3xl font-black">:</div>
                                         </div>
-                                        <div className="text-7xl font-black text-zinc-500 tabular-nums">{(liveMatch.liveData as VolleyballStateDTO)?.score?.away || 0}</div>
+                                        <div className="text-7xl font-black text-zinc-300 tabular-nums">{(liveMatch.liveData as VolleyballStateDTO)?.score?.away || 0}</div>
                                     </div>
                                     <div className="mt-6 flex flex-wrap justify-center gap-2">
                                         {(liveMatch.liveData as VolleyballStateDTO)?.sets?.map((s, i) => (
-                                            <div key={i} className="flex flex-col items-center px-3 py-1 bg-black/40 rounded border border-white/5 min-w-[60px]">
-                                                <span className="text-[7px] font-black text-zinc-600 uppercase mb-1">Set {i + 1}</span>
-                                                <span className="text-[10px] font-mono font-bold text-zinc-400">{s.home} - {s.away}</span>
+                                            <div key={i} className="flex flex-col items-center px-3 py-1 bg-white rounded border border-zinc-100 min-w-[60px] shadow-sm">
+                                                <span className="text-[7px] font-black text-zinc-300 uppercase mb-1">Set {i + 1}</span>
+                                                <span className="text-[10px] font-mono font-bold text-zinc-500">{s.home} - {s.away}</span>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
 
                                 <div className="text-center w-64 group">
-                                    <div className="w-20 h-20 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center text-2xl font-black italic mb-3 mx-auto group-hover:border-red-500/50 transition-all text-zinc-600">
+                                    <div className="w-20 h-20 bg-white rounded-2xl border border-zinc-200 flex items-center justify-center text-2xl font-black italic mb-3 mx-auto group-hover:border-red-500/50 transition-all text-zinc-400 shadow-sm">
                                         {liveMatch.awayTeam?.shortName || 'AWAY'}
                                     </div>
-                                    <div className="text-xs font-black uppercase tracking-tighter text-zinc-500 mb-2">{liveMatch.awayTeam?.name}</div>
-                                    <div className="text-sm font-black text-red-400 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20 inline-block">
+                                    <div className="text-xs font-black uppercase tracking-tighter text-zinc-400 mb-2">{liveMatch.awayTeam?.name}</div>
+                                    <div className="text-sm font-black text-red-600 bg-red-50 px-3 py-1 rounded-full border border-red-100 inline-block">
                                         SETS: {(liveMatch.liveData as VolleyballStateDTO)?.sets?.filter(s => s.away > s.home).length || 0}
                                     </div>
                                 </div>
                             </div>
                         </Card>
                     ) : (
-                        <Card variant="solid" className="p-8 bg-zinc-900/40 border-white/5 hidden md:block">
+                        <Card variant="outline" className="p-8 bg-zinc-50/50 border-zinc-200 hidden md:block">
                             <div className="flex items-center justify-between px-12">
                                 <div className="text-center group">
-                                    <div className="w-20 h-20 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center text-2xl font-black italic mb-3 group-hover:border-indigo-500/50 transition-all">
+                                    <div className="w-20 h-20 bg-white rounded-2xl border border-zinc-200 flex items-center justify-center text-2xl font-black italic mb-3 group-hover:border-indigo-500/50 transition-all shadow-sm">
                                         {liveMatch.homeTeam?.shortName || liveMatch.homeTeam?.name?.substring(0, 2).toUpperCase()}
                                     </div>
-                                    <div className="text-xs font-black uppercase tracking-tighter">{liveMatch.homeTeam?.name}</div>
+                                    <div className="text-xs font-black uppercase tracking-tighter text-zinc-900">{liveMatch.homeTeam?.name}</div>
                                 </div>
 
                                 <div className="flex flex-col items-center">
                                     <div className="flex items-center gap-8 text-6xl font-black tracking-tighter tabular-nums">
-                                        <span className="text-white">{liveMatch.scoreSummary?.home || 0}</span>
-                                        <span className="text-zinc-800 text-3xl">:</span>
-                                        <span className="text-zinc-500">{liveMatch.scoreSummary?.away || 0}</span>
+                                        <span className="text-zinc-900">{liveMatch.scoreSummary?.home || 0}</span>
+                                        <span className="text-zinc-100 text-3xl">:</span>
+                                        <span className="text-zinc-300">{liveMatch.scoreSummary?.away || 0}</span>
                                     </div>
-                                    <div className="mt-4 px-4 py-1 bg-black rounded-lg border border-white/5">
-                                        <span className="text-sm font-mono font-bold text-indigo-400">{(liveMatch.liveData as any)?.clock?.gameTime || 'LIVE'}</span>
+                                    <div className="mt-4 px-4 py-1 bg-white rounded-lg border border-zinc-100 shadow-sm">
+                                        <span className="text-sm font-mono font-bold text-indigo-600">{(liveMatch.liveData as any)?.clock?.gameTime || 'LIVE'}</span>
                                     </div>
                                 </div>
 
                                 <div className="text-center group">
-                                    <div className="w-20 h-20 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center text-2xl font-black italic mb-3 group-hover:border-indigo-500/50 transition-all text-zinc-600">
+                                    <div className="w-20 h-20 bg-white rounded-2xl border border-zinc-200 flex items-center justify-center text-2xl font-black italic mb-3 group-hover:border-indigo-500/50 transition-all text-zinc-400 shadow-sm">
                                         {liveMatch.awayTeam?.shortName || liveMatch.awayTeam?.name?.substring(0, 2).toUpperCase()}
                                     </div>
-                                    <div className="text-xs font-black uppercase tracking-tighter text-zinc-500">{liveMatch.awayTeam?.name}</div>
+                                    <div className="text-xs font-black uppercase tracking-tighter text-zinc-400">{liveMatch.awayTeam?.name}</div>
                                 </div>
                             </div>
                         </Card>
@@ -264,7 +264,7 @@ export function MatchView({ initialMatch }: { initialMatch: any }) {
 
                     {/* Volleyball Court View */}
                     {liveMatch.sport === 'volleyball' && (
-                        <Card variant="glass" className="p-8">
+                        <Card variant="outline" className="p-8 bg-zinc-50 border-zinc-200">
                             <div className="flex items-center justify-between mb-8">
                                 <div className="flex items-center gap-2">
                                     <Trophy className="w-4 h-4 text-yellow-500" />
@@ -290,14 +290,14 @@ export function MatchView({ initialMatch }: { initialMatch: any }) {
                     {/* Charts (Responsive Grid) */}
                     {match.sport === 'cricket' && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <Card variant="glass" className="p-6">
+                            <Card variant="outline" className="p-6 border-zinc-200 bg-white shadow-sm">
                                 <div className="flex items-center gap-2 mb-6">
                                     <TrendingUp className="w-4 h-4 text-indigo-500" />
                                     <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Run Momentum</span>
                                 </div>
                                 <WormChart data={prepareCricketData(match.liveData as CricketStateDTO).wormData} />
                             </Card>
-                            <Card variant="glass" className="p-6">
+                            <Card variant="outline" className="p-6 border-zinc-200 bg-white shadow-sm">
                                 <div className="flex items-center gap-2 mb-6">
                                     <BarChart3 className="w-4 h-4 text-orange-500" />
                                     <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Innings Breakdown</span>
@@ -311,11 +311,11 @@ export function MatchView({ initialMatch }: { initialMatch: any }) {
                 {/* Right Column: Chat & Live Feed */}
                 <div className="lg:col-span-4 space-y-8 flex flex-col h-[calc(100vh-100px)] sticky top-6">
                     {/* Chat Section */}
-                    <Card variant="solid" className="flex-1 bg-zinc-900/40 border-white/5 flex flex-col overflow-hidden relative">
-                        <div className="p-4 border-b border-white/5 flex items-center justify-between">
+                    <Card variant="outline" className="flex-1 bg-white border-zinc-200 flex flex-col overflow-hidden relative shadow-xl">
+                        <div className="p-4 border-b border-zinc-100 flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <MessageSquare className="w-4 h-4 text-indigo-500" />
-                                <h3 className="text-[10px] font-black uppercase tracking-widest text-white">Community Chat</h3>
+                                <h3 className="text-[10px] font-black uppercase tracking-widest text-zinc-900">Community Chat</h3>
                             </div>
                             <div className="flex items-center gap-2">
                                 <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
@@ -324,21 +324,21 @@ export function MatchView({ initialMatch }: { initialMatch: any }) {
                         </div>
 
                         {isJoiningChat ? (
-                            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-black/40 backdrop-blur-sm">
-                                <div className="w-16 h-16 bg-indigo-500/10 rounded-full flex items-center justify-center mb-6 text-indigo-500 border border-indigo-500/20">
+                            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-zinc-50/50">
+                                <div className="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mb-6 text-indigo-600 border border-indigo-100 shadow-sm">
                                     <User className="w-8 h-8" />
                                 </div>
-                                <h4 className="text-sm font-black uppercase italic mb-2">Join the Conversation</h4>
-                                <p className="text-[10px] text-zinc-500 uppercase tracking-widest mb-8">Set your handle to start chatting</p>
+                                <h4 className="text-sm font-black uppercase italic mb-2 text-zinc-900">Join the Conversation</h4>
+                                <p className="text-[10px] text-zinc-400 uppercase tracking-widest mb-8">Set your handle to start chatting</p>
                                 <form onSubmit={handleJoinChat} className="w-full space-y-4">
                                     <input
                                         required
                                         value={userName}
                                         onChange={(e) => setUserName(e.target.value)}
                                         placeholder="ENTER YOUR HANDLE"
-                                        className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-xs font-bold text-center outline-none focus:border-indigo-500 transition-all placeholder:text-zinc-800"
+                                        className="w-full bg-white border border-zinc-200 rounded-xl px-4 py-3 text-xs font-bold text-center outline-none focus:border-indigo-500 transition-all placeholder:text-zinc-300 text-zinc-900 shadow-sm"
                                     />
-                                    <Button type="submit" className="w-full !bg-white !text-black font-black uppercase tracking-[0.2em] text-[10px] rounded-xl py-3 shadow-xl">
+                                    <Button type="submit" className="w-full !bg-zinc-900 !text-white font-black uppercase tracking-[0.2em] text-[10px] rounded-xl py-4 shadow-xl hover:!bg-black">
                                         Activate Chat
                                     </Button>
                                 </form>
@@ -351,10 +351,10 @@ export function MatchView({ initialMatch }: { initialMatch: any }) {
                                         {comments.map((c) => (
                                             <div key={c.id} className="flex flex-col gap-1 group animate-fade-in">
                                                 <div className="flex items-center gap-2">
-                                                    <span className="text-[9px] font-black text-indigo-400 uppercase tracking-widest">{c.userName}</span>
-                                                    <span className="text-[7px] text-zinc-600 font-bold">{new Date(c.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                                    <span className="text-[9px] font-black text-indigo-600 uppercase tracking-widest">{c.userName}</span>
+                                                    <span className="text-[7px] text-zinc-300 font-bold">{new Date(c.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                                 </div>
-                                                <div className="p-3 bg-white/5 rounded-2xl rounded-tl-none border border-white/5 text-[11px] font-medium leading-relaxed group-hover:bg-white/10 transition-colors">
+                                                <div className="p-3 bg-zinc-50 rounded-2xl rounded-tl-none border border-zinc-100 text-[11px] font-medium leading-relaxed group-hover:bg-zinc-100 transition-colors text-zinc-600">
                                                     {c.content}
                                                 </div>
                                             </div>
@@ -364,21 +364,21 @@ export function MatchView({ initialMatch }: { initialMatch: any }) {
                                 </div>
 
                                 {/* Input Area */}
-                                <div className="p-4 border-t border-white/5 bg-black/40">
+                                <div className="p-4 border-t border-zinc-100 bg-white">
                                     <form onSubmit={handleSendComment} className="flex gap-2">
                                         <input
                                             value={newComment}
                                             onChange={(e) => setNewComment(e.target.value)}
                                             placeholder="SAY SOMETHING..."
-                                            className="flex-1 bg-zinc-950 border border-white/10 rounded-xl px-4 py-2 text-[11px] font-bold outline-none focus:border-indigo-500 transition-all placeholder:text-zinc-800"
+                                            className="flex-1 bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-2 text-[11px] font-bold outline-none focus:border-indigo-500 transition-all placeholder:text-zinc-300 text-zinc-900"
                                         />
-                                        <button type="submit" className="p-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl transition-all shadow-lg shadow-indigo-500/20 group">
+                                        <button type="submit" className="p-2 bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-all shadow-lg shadow-indigo-500/20 group text-white">
                                             <Send className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                                         </button>
                                     </form>
                                     <div className="mt-3 flex items-center justify-between px-1">
-                                        <span className="text-[8px] font-black text-zinc-700 uppercase">Logged in as: <span className="text-zinc-500">{userName}</span></span>
-                                        <button onClick={() => setIsJoiningChat(true)} className="text-[8px] font-black text-zinc-700 hover:text-indigo-400 uppercase">Change</button>
+                                        <span className="text-[8px] font-black text-zinc-300 uppercase">Logged in as: <span className="text-zinc-500">{userName}</span></span>
+                                        <button onClick={() => setIsJoiningChat(true)} className="text-[8px] font-black text-zinc-400 hover:text-indigo-600 uppercase">Change</button>
                                     </div>
                                 </div>
                             </>
@@ -386,21 +386,21 @@ export function MatchView({ initialMatch }: { initialMatch: any }) {
                     </Card>
 
                     {/* Compact Live Feed */}
-                    <Card variant="glass" className="h-[250px] flex flex-col p-0">
-                        <div className="p-4 border-b border-white/5 flex items-center gap-2">
+                    <Card variant="outline" className="h-[250px] flex flex-col p-0 border-zinc-200 bg-white shadow-xl">
+                        <div className="p-4 border-b border-zinc-100 flex items-center gap-2">
                             <Activity className="w-3 h-3 text-red-500" />
-                            <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Live Highlights</span>
+                            <span className="text-[9px] font-black uppercase tracking-widest text-zinc-900">Live Highlights</span>
                         </div>
                         <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
                             {(liveMatch.liveData as any)?.events?.length > 0 ? (
                                 (liveMatch.liveData as any).events.slice().reverse().map((e: any, i: number) => (
                                     <div key={i} className="flex gap-3 text-[10px]">
-                                        <span className="font-black text-indigo-500">{e.minute}</span>
+                                        <span className="font-black text-indigo-600">{e.minute}</span>
                                         <span className="font-bold text-zinc-400 uppercase tracking-tighter">{e.description}</span>
                                     </div>
                                 ))
                             ) : (
-                                <p className="text-[9px] text-zinc-800 font-bold uppercase tracking-[0.2em] text-center pt-8">Establishing Uplink...</p>
+                                <p className="text-[9px] text-zinc-200 font-bold uppercase tracking-[0.2em] text-center pt-8">Establishing Uplink...</p>
                             )}
                         </div>
                     </Card>
@@ -412,9 +412,9 @@ export function MatchView({ initialMatch }: { initialMatch: any }) {
 
 function StatItem({ label, value }: { label: string, value: string }) {
     return (
-        <div className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
-            <span className="text-[10px] font-black uppercase tracking-widest text-zinc-600">{label}</span>
-            <span className="text-[10px] font-black uppercase tracking-widest text-white">{value}</span>
+        <div className="flex justify-between items-center py-2 border-b border-zinc-100 last:border-0">
+            <span className="text-[10px] font-black uppercase tracking-widest text-zinc-300">{label}</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-zinc-900">{value}</span>
         </div>
     );
 }
@@ -433,11 +433,11 @@ function VolleyballCourt({ teamId, data }: { teamId: 'home' | 'away', data: Voll
     return (
         <div className="flex flex-col gap-4">
             <div className="text-center">
-                <span className={`text-[10px] font-black uppercase tracking-widest ${teamId === 'home' ? 'text-blue-400' : 'text-red-400'}`}>
+                <span className={`text-[10px] font-black uppercase tracking-widest ${teamId === 'home' ? 'text-blue-600' : 'text-red-600'}`}>
                     {team.name}
                 </span>
             </div>
-            <div className={`grid grid-cols-3 gap-2 p-4 rounded-2xl border-2 transition-all ${data.servingTeam === teamId ? 'border-yellow-500/50 bg-yellow-500/5' : 'border-white/5 bg-white/5'}`}>
+            <div className={`grid grid-cols-3 gap-2 p-4 rounded-2xl border-2 transition-all ${data.servingTeam === teamId ? 'border-yellow-400/50 bg-yellow-400/5' : 'border-zinc-100 bg-zinc-50/50'}`}>
                 {grid.map((pid, i) => {
                     const player = team.players.find(p => p.id === pid);
                     const isLibero = (player as any)?.position === 'L';
@@ -445,15 +445,15 @@ function VolleyballCourt({ teamId, data }: { teamId: 'home' | 'away', data: Voll
                     return (
                         <div
                             key={i}
-                            className={`aspect-square flex flex-col items-center justify-center rounded-xl border transition-all relative ${isLibero ? 'bg-yellow-500/10 border-yellow-500/20' : 'bg-black/20 border-white/5'}`}
+                            className={`aspect-square flex flex-col items-center justify-center rounded-xl border transition-all relative ${isLibero ? 'bg-yellow-400/10 border-yellow-400/20' : 'bg-white border-zinc-100 shadow-sm'}`}
                         >
-                            <span className="text-[8px] font-black text-zinc-500 mb-1">
-                                {player?.number} {isLibero && <span className="text-[6px] bg-yellow-500 text-black px-1 rounded ml-1">L</span>}
+                            <span className="text-[8px] font-black text-zinc-200 mb-1">
+                                {player?.number} {isLibero && <span className="text-[6px] bg-yellow-400 text-black px-1 rounded ml-1">L</span>}
                             </span>
-                            <span className="text-[10px] font-black uppercase tracking-tighter text-white truncate w-full text-center px-2">
+                            <span className="text-[10px] font-black uppercase tracking-tighter text-zinc-900 truncate w-full text-center px-2">
                                 {player?.name?.split(' ')[1] || player?.name || '---'}
                             </span>
-                            <span className="absolute top-1 right-1 text-[6px] font-black text-zinc-800">
+                            <span className="absolute top-1 right-1 text-[6px] font-black text-zinc-100">
                                 Z{i < 3 ? [4, 3, 2][i] : [5, 6, 1][i - 3]}
                             </span>
                         </div>
