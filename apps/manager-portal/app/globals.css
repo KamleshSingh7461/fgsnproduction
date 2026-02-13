@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --background: #09090b;
+    --foreground: #ecfdf5;
+}
+
+body {
+    background: var(--background);
+    color: var(--foreground);
+}
+
+@layer base {
+    * {
+        @apply border-emerald-500/10;
+    }
+}

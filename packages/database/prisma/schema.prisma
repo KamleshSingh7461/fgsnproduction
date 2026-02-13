@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // Hashed password
+  name      String?
+  role      String   // SUPER_ADMIN, ADMIN, EVENT_MANAGER, SCORER
+  
+  // Assignments
+  managedTournaments UserTournamentAssignment[]
+  scoredMatches     UserMatchAssignment[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserTournamentAssignment {
+  id           String     @id @default(cuid())
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  tournamentId String
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  role         String     // e.g., "MANAGER"
+  
+  createdAt    DateTime   @default(now())
+
+  @@unique([userId, tournamentId])
+}
+
+model UserMatchAssignment {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  matchId   String
+  match     Match    @relation(fields: [matchId], references: [id])
+  role      String   // e.g., "SCORER"
+  
+  createdAt DateTime @default(now())
+
+  @@unique([userId, matchId])
+}
+
+model Tournament {
+  id        String   @id @default(cuid())
+  name      String
+  category  String   @default("General")
+  sport     String   @default("football") // e.g., cricket, basketball, football, volleyball
+  location  String?  // Optional site/city name
+  matches   Match[]
+  managers  UserTournamentAssignment[]
+  teams     TournamentTeam[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TournamentTeam {
+  id           String     @id @default(cuid())
+  tournamentId String
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  teamId       String
+  team         Team       @relation(fields: [teamId], references: [id])
+  createdAt    DateTime   @default(now())
+
+  @@unique([tournamentId, teamId])
+}
+
+model Team {
+  id           String   @id @default(cuid())
+  name         String
+  shortName    String?
+  logoUrl      String?
+  players      Player[]
+  matchTeams   MatchTeam[]
+  tournaments  TournamentTeam[]
+  createdAt    DateTime @default(now())
+}
+
+model Player {
+  id        String   @id @default(cuid())
+  name      String
+  sport     String   @default("General") // Links to the specific discipline
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id])
+  stats     String?  // JSON string for historical stats
+  createdAt DateTime @default(now())
+}
+
+model MatchTeam {
+  id           String     @id @default(cuid())
+  matchId      String
+  match        Match      @relation(fields: [matchId], references: [id])
+  teamId       String
+  team         Team       @relation(fields: [teamId], references: [id])
+  slotLabel    String?    // e.g., "Home", "Away", "Lane 1"
+  displayOrder Int        @default(0)
+  
+  @@unique([matchId, teamId])
+}
+
+model Match {
+  id           String     @id @default(cuid())
+  sport        String     // cricket, basketball, football
+  status       String     // scheduled, live, finished
+  tournamentId String
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  
+  teams        MatchTeam[]
+  
+  scorers      UserMatchAssignment[]
+  
+  startTime    DateTime
+  venue        String
+  
+  // Real-time State (JSON String for SQLite compatibility)
+  liveData     String     // Stores the full MatchStateDTO as JSON
+  streamUrl    String?    // Link to YouTube/Twitch stream
+  
+  comments     Comment[]
+  
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  matchId   String
+  match     Match    @relation(fields: [matchId], references: [id])
+  userId    String?  // Optional for anonymous or guest chat
+  userName  String
+  content   String
+  createdAt DateTime @default(now())
+}
