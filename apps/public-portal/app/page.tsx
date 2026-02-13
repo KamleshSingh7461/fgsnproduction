@@ -104,7 +104,7 @@ export default async function LandingPage() {
                         playsInline
                         className="hidden md:block absolute inset-0 w-full h-full object-cover opacity-[0.6] transition-opacity duration-1000"
                     >
-                        <source src="https://fgsn-public-assets.s3.ap-south-1.amazonaws.com/hero-bg.mp4" type="video/mp4" />
+                        <source src="https://dv7mu684h1zb9.cloudfront.net/hero-bg.mp4" type="video/mp4" />
                     </video>
                     {/* Professional HUD Overlays */}
                     <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-transparent to-white/80 z-10" />
