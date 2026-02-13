@@ -32,39 +32,11 @@ export const ScrollStorytelling: React.FC<Props> = ({ services }) => {
         offset: ["start start", "end end"]
     });
 
-    // Mobile: Simple card layout (no heavy animations)
-    if (isMobile) {
-        return (
-            <div className="py-16 px-6 bg-white">
-                <div className="max-w-6xl mx-auto space-y-8">
-                    {services.map((service, index) => (
-                        <Card key={index} className="p-6 border border-zinc-200">
-                            <div className="flex items-start gap-4">
-                                <div className={`p-3 rounded-lg bg-gradient-to-br ${service.color}`}>
-                                    {service.icon}
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-                                    <p className="text-sm text-zinc-600 mb-3">{service.desc}</p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {service.tags.map((tag, i) => (
-                                            <span key={i} className="text-xs px-2 py-1 bg-zinc-100 rounded">
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </Card>
-                    ))}
-                </div>
-            </div>
-        );
-    }
+    // Use shorter scroll height on mobile for better performance
+    const scrollHeight = isMobile ? "400vh" : "700vh";
 
-    // Desktop: Full scroll animation experience
     return (
-        <div ref={containerRef} className="relative h-[700vh]">
+        <div ref={containerRef} className={`relative h-[${scrollHeight}]`} style={{ height: scrollHeight }}>
             <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-white">
                 {services.map((service, index) => (
                     <ServiceSlide
@@ -73,6 +45,7 @@ export const ScrollStorytelling: React.FC<Props> = ({ services }) => {
                         index={index}
                         total={services.length}
                         scrollYProgress={scrollYProgress}
+                        isMobile={isMobile}
                     />
                 ))}
             </div>
@@ -85,9 +58,10 @@ interface SlideProps {
     index: number;
     total: number;
     scrollYProgress: any;
+    isMobile?: boolean;
 }
 
-const ServiceSlide: React.FC<SlideProps> = ({ service, index, total, scrollYProgress }) => {
+const ServiceSlide: React.FC<SlideProps> = ({ service, index, total, scrollYProgress, isMobile }) => {
     // Each slide occupies a portion of the scroll
     const start = index / total;
     const end = (index + 1) / total;
@@ -113,15 +87,15 @@ const ServiceSlide: React.FC<SlideProps> = ({ service, index, total, scrollYProg
         [0.9, 1, 1, 0.9]
     );
 
-    // X Movement for parallax
-    const xParallax = useTransform(
+    // X Movement for parallax - DISABLED on mobile for performance
+    const xParallax = isMobile ? 0 : useTransform(
         scrollYProgress,
         [start, end],
         [100, -100]
     );
 
-    // Image Zoom Effect
-    const imageScale = useTransform(
+    // Image Zoom Effect - DISABLED on mobile for performance
+    const imageScale = isMobile ? 1 : useTransform(
         scrollYProgress,
         [start, end],
         [1.1, 1]
@@ -137,7 +111,10 @@ const ServiceSlide: React.FC<SlideProps> = ({ service, index, total, scrollYProg
                     style={{ x: xParallax }}
                     className="relative order-2 lg:order-1 z-30"
                 >
-                    <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-5 blur-[150px] rounded-full animate-pulse`} />
+                    {/* Blur effect - DISABLED on mobile for performance */}
+                    {!isMobile && (
+                        <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-5 blur-[150px] rounded-full animate-pulse`} />
+                    )}
                     <div className="relative z-10">
                         <div className="flex items-center gap-4 mb-8">
                             <div className={`p-3 md:p-4 rounded-2xl bg-white border border-zinc-100 text-zinc-900 shadow-xl`}>
