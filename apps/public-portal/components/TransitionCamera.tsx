@@ -10,30 +10,27 @@ const TransitionCamera: React.FC = () => {
     // This gives us exactly 150vh of scrollable range to play the animation.
     const { scrollYProgress } = useScroll({
         target: containerRef,
-        offset: ["start center", "end center"]
+        offset: ["start center", "end start"]
     });
 
-    // Smoothen the scroll progress
+    // ... existing smoothening ...
     const smoothProgress = useSpring(scrollYProgress, {
         stiffness: 80,
         damping: 25,
         restDelta: 0.001
     });
 
-    // Sequential Animation Transformations
-    // Mapped to the clear 0 -> 1 window of the transition zone.
+    // Scale: Fly past the camera faster (by 0.9)
+    const scale = useTransform(smoothProgress, [0, 0.4, 0.9, 1], [0.5, 1, 20, 25]);
 
-    // Scale: 0.5 -> 1 -> 15
-    const scale = useTransform(smoothProgress, [0, 0.5, 1], [0.5, 1, 15]);
-
-    // Opacity: Fade in quickly at start, fade out by the end
-    const opacity = useTransform(smoothProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
+    // Opacity: Fade out completely by 0.9 to ensure it's gone before next section
+    const opacity = useTransform(smoothProgress, [0, 0.1, 0.8, 0.9], [0, 1, 1, 0]);
 
     // Rotation: Natural camera tilt
     const rotateX = useTransform(smoothProgress, [0, 1], [20, -20]);
 
-    // Depth (Z): Cinematic push
-    const z = useTransform(smoothProgress, [0, 1], [-200, 4000]);
+    // Depth (Z): Cinematic push - increased for faster fly-by
+    const z = useTransform(smoothProgress, [0, 1], [-200, 8000]);
 
     // Vertical Offset (Y): Smooth lift
     const y = useTransform(smoothProgress, [0, 1], [300, -300]);

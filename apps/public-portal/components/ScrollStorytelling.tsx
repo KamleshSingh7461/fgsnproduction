@@ -94,17 +94,17 @@ const ServiceSlide: React.FC<SlideProps> = ({ service, index, total, scrollYProg
     );
 
     // X Movement for parallax - DISABLED on mobile for performance
-    const xParallax = isMobile ? 0 : useTransform(
+    const xParallax = useTransform(
         scrollYProgress,
         [start, end],
-        [100, -100]
+        isMobile ? [0, 0] : [100, -100]
     );
 
     // Image Zoom Effect - DISABLED on mobile for performance
-    const imageScale = isMobile ? 1 : useTransform(
+    const imageScale = useTransform(
         scrollYProgress,
         [start, end],
-        [1.1, 1]
+        isMobile ? [1, 1] : [1.1, 1]
     );
 
     return (
