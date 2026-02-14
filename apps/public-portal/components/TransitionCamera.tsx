@@ -10,7 +10,7 @@ const TransitionCamera: React.FC = () => {
     // This gives us exactly 150vh of scrollable range to play the animation.
     const { scrollYProgress } = useScroll({
         target: containerRef,
-        offset: ["start center", "end start"]
+        offset: ["start 80%", "end start"]
     });
 
     // Snappier spring to reduce lag at the end of transition
