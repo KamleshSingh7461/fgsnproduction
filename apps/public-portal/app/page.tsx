@@ -163,8 +163,8 @@ export default function LandingPage() {
                 </div>
             </header>
 
-            {/* Transition Space */}
-            <div className="h-40 bg-white" />
+            {/* Transition Space - Increased buffer for clean handoff */}
+            <div className="h-80 bg-white" />
 
             {/* 3D Camera Fly-through Overlay */}
             <TransitionCamera />

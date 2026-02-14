@@ -13,24 +13,24 @@ const TransitionCamera: React.FC = () => {
         offset: ["start center", "end start"]
     });
 
-    // ... existing smoothening ...
+    // Snappier spring to reduce lag at the end of transition
     const smoothProgress = useSpring(scrollYProgress, {
-        stiffness: 80,
-        damping: 25,
+        stiffness: 100,
+        damping: 30,
         restDelta: 0.001
     });
 
-    // Scale: Fly past the camera faster (by 0.9)
-    const scale = useTransform(smoothProgress, [0, 0.4, 0.9, 1], [0.5, 1, 20, 25]);
+    // Scale: Reach fly-by scale sooner (by 0.8)
+    const scale = useTransform(smoothProgress, [0, 0.4, 0.8, 1], [0.5, 1, 20, 30]);
 
-    // Opacity: Fade out completely by 0.9 to ensure it's gone before next section
-    const opacity = useTransform(smoothProgress, [0, 0.1, 0.8, 0.9], [0, 1, 1, 0]);
+    // Opacity: Fade out completely by 0.7 to ensure separation from next section
+    const opacity = useTransform(smoothProgress, [0, 0.1, 0.6, 0.7], [0, 1, 1, 0]);
 
     // Rotation: Natural camera tilt
     const rotateX = useTransform(smoothProgress, [0, 1], [20, -20]);
 
-    // Depth (Z): Cinematic push - increased for faster fly-by
-    const z = useTransform(smoothProgress, [0, 1], [-200, 8000]);
+    // Depth (Z): Cinematic push - increased and finishes earlier
+    const z = useTransform(smoothProgress, [0, 0.8], [-200, 10000]);
 
     // Vertical Offset (Y): Smooth lift
     const y = useTransform(smoothProgress, [0, 1], [300, -300]);
