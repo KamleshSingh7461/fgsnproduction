@@ -13,6 +13,15 @@ const TransitionCamera: React.FC = () => {
         offset: ["start 80%", "end start"]
     });
 
+    // Mobile detection for timing acceleration
+    const [isMobile, setIsMobile] = React.useState(false);
+    React.useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     // Snappier spring to reduce lag at the end of transition
     const smoothProgress = useSpring(scrollYProgress, {
         stiffness: 100,
@@ -20,23 +29,23 @@ const TransitionCamera: React.FC = () => {
         restDelta: 0.001
     });
 
-    // Scale: Reach fly-by scale sooner (by 0.8)
-    const scale = useTransform(smoothProgress, [0, 0.4, 0.8, 1], [0.5, 1, 20, 30]);
+    // Scale: Reach fly-by scale sooner on mobile (0.6) vs desktop (0.8)
+    const scale = useTransform(smoothProgress, [0, 0.4, isMobile ? 0.6 : 0.8, 1], [0.5, 1, 20, 30]);
 
-    // Opacity: Fade out completely by 0.7 to ensure separation from next section
-    const opacity = useTransform(smoothProgress, [0, 0.1, 0.6, 0.7], [0, 1, 1, 0]);
+    // Opacity: Fade out completely earlier on mobile (0.5) vs desktop (0.7)
+    const opacity = useTransform(smoothProgress, [0, 0.1, isMobile ? 0.4 : 0.6, isMobile ? 0.5 : 0.7], [0, 1, 1, 0]);
 
     // Rotation: Natural camera tilt
     const rotateX = useTransform(smoothProgress, [0, 1], [20, -20]);
 
-    // Depth (Z): Cinematic push - increased and finishes earlier
-    const z = useTransform(smoothProgress, [0, 0.8], [-200, 10000]);
+    // Depth (Z): Cinematic push - increased and finishes earlier on mobile
+    const z = useTransform(smoothProgress, [0, isMobile ? 0.6 : 0.8], [-200, 10000]);
 
     // Vertical Offset (Y): Smooth lift
     const y = useTransform(smoothProgress, [0, 1], [300, -300]);
 
     return (
-        <div ref={containerRef} className="relative w-full h-[150vh] pointer-events-none z-50 overflow-visible">
+        <div ref={containerRef} className={`relative w-full ${isMobile ? 'h-[100vh]' : 'h-[150vh]'} pointer-events-none z-50 overflow-visible`}>
             {/* The 150vh height ensures we have a real scroll duration for the cinematic. */}
 
             <div className="fixed inset-0 pointer-events-none z-[60] flex items-center justify-center overflow-hidden">

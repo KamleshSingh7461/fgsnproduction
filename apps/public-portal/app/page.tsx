@@ -108,7 +108,7 @@ export default function LandingPage() {
             <LiveScoreStripWrapper />
 
             {/* Hero Section */}
-            <header className="relative pt-32 pb-48 px-6 text-center overflow-hidden border-b border-zinc-100 min-h-[90vh] flex items-center justify-center">
+            <header className="relative pt-32 pb-24 md:pb-48 px-6 text-center overflow-hidden border-b border-zinc-100 min-h-[90vh] flex items-center justify-center">
                 {/* Cinematic Video Background - Enabled on all devices */}
                 <div className="absolute inset-0 z-0">
                     <video
