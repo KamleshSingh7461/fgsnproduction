@@ -109,23 +109,17 @@ export default function LandingPage() {
 
             {/* Hero Section */}
             <header className="relative pt-32 pb-48 px-6 text-center overflow-hidden border-b border-zinc-100 min-h-[90vh] flex items-center justify-center">
-                {/* Cinematic Video Background - Desktop Only */}
+                {/* Cinematic Video Background - Enabled on all devices */}
                 <div className="absolute inset-0 z-0">
-                    {/* Mobile: Gradient Background */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-zinc-50 via-white to-zinc-100 md:hidden" />
-
-                    {/* Desktop: Video Background */}
-                    {!isMobile && (
-                        <video
-                            autoPlay
-                            muted
-                            loop
-                            playsInline
-                            className="hidden md:block absolute inset-0 w-full h-full object-cover opacity-[0.6] transition-opacity duration-1000"
-                        >
-                            <source src="https://dv7mu684h1zb9.cloudfront.net/hero-bg.mp4" type="video/mp4" />
-                        </video>
-                    )}
+                    <video
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="absolute inset-0 w-full h-full object-cover opacity-[0.6] transition-opacity duration-1000"
+                    >
+                        <source src="https://dv7mu684h1zb9.cloudfront.net/hero-bg.mp4" type="video/mp4" />
+                    </video>
                     {/* Professional HUD Overlays */}
                     <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-transparent to-white/80 z-10" />
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,white_100%)] opacity-20 z-10" />
@@ -161,20 +155,20 @@ export default function LandingPage() {
                         </Button>
                     </div>
                 </div>
-            </header>
+            </header >
 
             {/* 3D Camera Fly-through Overlay */}
-            <TransitionCamera />
+            < TransitionCamera />
 
             {/* Services Storytelling - "The FGSN Edge" */}
-            <section className="bg-white relative">
+            < section className="bg-white relative" >
                 <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white to-transparent z-10" />
                 <ScrollStorytelling services={services} />
-            </section>
+            </section >
 
 
             {/* Portfolio Section - Past Events */}
-            <section className="py-32 px-6 bg-white border-t border-zinc-100">
+            < section className="py-32 px-6 bg-white border-t border-zinc-100" >
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-20">
                         <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-sm bg-zinc-900 text-[9px] font-black uppercase tracking-[0.3em] text-white mb-6 shadow-xl">
@@ -255,10 +249,10 @@ export default function LandingPage() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* Technical Prowess */}
-            <section className="py-32 px-6 bg-zinc-50 border-t border-zinc-100">
+            < section className="py-32 px-6 bg-zinc-50 border-t border-zinc-100" >
                 <div className="max-w-7xl mx-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
                         <div>
@@ -295,10 +289,10 @@ export default function LandingPage() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* CTA Section */}
-            <section className="py-48 px-6 bg-white relative overflow-hidden">
+            < section className="py-48 px-6 bg-white relative overflow-hidden" >
                 <div className="absolute inset-0 bg-red-600/5 blur-[120px] rounded-full translate-y-1/2 scale-150" />
                 <div className="max-w-4xl mx-auto text-center relative z-10 border border-zinc-100 bg-white p-10 md:p-20 rounded-[40px] md:rounded-[60px] shadow-2xl">
                     <h2 className="text-4xl md:text-7xl font-black tracking-tighter mb-8 uppercase italic text-zinc-900">Ready to Scale?</h2>
@@ -312,13 +306,13 @@ export default function LandingPage() {
                         </Button>
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* Footer */}
             {/* Footer */}
             <Footer />
 
-        </div>
+        </div >
     );
 }
 
