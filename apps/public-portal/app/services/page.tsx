@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Navbar } from '../../components/Navbar';
 import { Footer } from '../../components/Footer';
 
-const TransitionCamera = dynamic(() => import('@/components/TransitionCamera').then(mod => mod.TransitionCamera), {
+const TransitionCamera = dynamic(() => import('@/components/TransitionCamera'), {
     ssr: false
 });
 

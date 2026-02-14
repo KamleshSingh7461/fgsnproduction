@@ -19,7 +19,7 @@ const ScrollStorytelling = dynamic(() => import('@/components/ScrollStorytelling
     loading: () => <div className="h-[400vh] bg-white" />
 });
 
-const TransitionCamera = dynamic(() => import('@/components/TransitionCamera').then(mod => mod.TransitionCamera), {
+const TransitionCamera = dynamic(() => import('@/components/TransitionCamera'), {
     ssr: false
 });
 

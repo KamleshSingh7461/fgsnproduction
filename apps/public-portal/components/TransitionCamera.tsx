@@ -3,7 +3,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 
-export const TransitionCamera: React.FC = () => {
+const TransitionCamera: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Track scroll through the 150vh zone as it passes the viewport center
@@ -111,3 +111,5 @@ export const TransitionCamera: React.FC = () => {
         </div>
     );
 };
+
+export default TransitionCamera;
