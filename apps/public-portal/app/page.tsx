@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { Card, Button } from '@fgsn/ui';
 import {
     ArrowRight, Trophy, Tv, Users, Activity, Calendar,
@@ -9,11 +11,27 @@ import {
 import Link from 'next/link';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
-import { ScrollStorytelling } from '../components/ScrollStorytelling';
 import { LiveScoreStripWrapper } from '../components/LiveScoreStripWrapper';
-import { TransitionCamera } from '../components/TransitionCamera';
+
+// Dynamically import heavy interactive components (Client-side only)
+const ScrollStorytelling = dynamic(() => import('@/components/ScrollStorytelling').then(mod => mod.ScrollStorytelling), {
+    ssr: false,
+    loading: () => <div className="h-[400vh] bg-white" />
+});
+
+const TransitionCamera = dynamic(() => import('@/components/TransitionCamera').then(mod => mod.TransitionCamera), {
+    ssr: false
+});
 
 export default function LandingPage() {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     const services = [
         {
@@ -97,15 +115,17 @@ export default function LandingPage() {
                     <div className="absolute inset-0 bg-gradient-to-br from-zinc-50 via-white to-zinc-100 md:hidden" />
 
                     {/* Desktop: Video Background */}
-                    <video
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        className="hidden md:block absolute inset-0 w-full h-full object-cover opacity-[0.6] transition-opacity duration-1000"
-                    >
-                        <source src="https://dv7mu684h1zb9.cloudfront.net/hero-bg.mp4" type="video/mp4" />
-                    </video>
+                    {!isMobile && (
+                        <video
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            className="hidden md:block absolute inset-0 w-full h-full object-cover opacity-[0.6] transition-opacity duration-1000"
+                        >
+                            <source src="https://dv7mu684h1zb9.cloudfront.net/hero-bg.mp4" type="video/mp4" />
+                        </video>
+                    )}
                     {/* Professional HUD Overlays */}
                     <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-transparent to-white/80 z-10" />
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,white_100%)] opacity-20 z-10" />
@@ -142,6 +162,9 @@ export default function LandingPage() {
                     </div>
                 </div>
             </header>
+
+            {/* Transition Space */}
+            <div className="h-40 bg-white" />
 
             {/* 3D Camera Fly-through Overlay */}
             <TransitionCamera />

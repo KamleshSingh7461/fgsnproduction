@@ -18,6 +18,7 @@ export function Navbar() {
         { href: '/matches', label: 'Live Scores' },
         { href: '/tournaments', label: 'Tournaments' },
         { href: '/services', label: 'Our Services' },
+        { href: '/partners', label: 'Partners' },
         { href: '/about', label: 'About Us' },
         { href: '/reach-us', label: 'Reach Us' },
     ];

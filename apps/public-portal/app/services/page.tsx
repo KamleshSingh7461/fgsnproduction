@@ -1,9 +1,13 @@
-
+import dynamic from 'next/dynamic';
 import { ScrollStorytelling } from '../../components/ScrollStorytelling';
 import { Tv, Presentation, Mic2, Construction, Settings, MonitorPlay, MapPin, Activity } from 'lucide-react';
 import Link from 'next/link';
 import { Navbar } from '../../components/Navbar';
 import { Footer } from '../../components/Footer';
+
+const TransitionCamera = dynamic(() => import('@/components/TransitionCamera').then(mod => mod.TransitionCamera), {
+    ssr: false
+});
 
 export default function ServicesPage() {
     const services = [
@@ -89,7 +93,15 @@ export default function ServicesPage() {
                     </p>
                 </header>
 
-                <ScrollStorytelling services={services} />
+                {/* Transition Space */}
+                <div className="h-40 bg-white" />
+
+                <TransitionCamera />
+
+                <section className="bg-white relative">
+                    <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white to-transparent z-10" />
+                    <ScrollStorytelling services={services} />
+                </section>
             </main>
             <Footer />
         </div>

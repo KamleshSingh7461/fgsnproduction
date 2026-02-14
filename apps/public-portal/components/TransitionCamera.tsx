@@ -4,17 +4,13 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 
 export const TransitionCamera: React.FC = () => {
-    const anchorRef = useRef<HTMLDivElement>(null);
-    const [mounted, setMounted] = React.useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
 
-    React.useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    // Use target ref for precise scroll tracking at the transition point
+    // Track scroll through the 150vh zone as it passes the viewport center
+    // This gives us exactly 150vh of scrollable range to play the animation.
     const { scrollYProgress } = useScroll({
-        target: anchorRef,
-        offset: ["start end", "end start"]
+        target: containerRef,
+        offset: ["start center", "end center"]
     });
 
     // Smoothen the scroll progress
@@ -24,21 +20,29 @@ export const TransitionCamera: React.FC = () => {
         restDelta: 0.001
     });
 
-    // Precise Fly-through transformations relative to the anchor
-    // 0.0 -> Entry (start scroll)
-    // 0.5 -> Midpoint (center of transition)
-    // 1.0 -> Exit (end scroll)
-    const scale = useTransform(smoothProgress, [0.4, 0.7, 1], [0.5, 1, 8]);
-    const opacity = useTransform(smoothProgress, [0.4, 0.5, 0.8, 1], [0, 1, 1, 0]);
-    const rotateX = useTransform(smoothProgress, [0.4, 1], [20, -20]);
-    const z = useTransform(smoothProgress, [0.4, 1], [-200, 2000]);
-    const y = useTransform(smoothProgress, [0.4, 1], [300, -300]);
+    // Sequential Animation Transformations
+    // Mapped to the clear 0 -> 1 window of the transition zone.
 
-    if (!mounted) return null;
+    // Scale: 0.5 -> 1 -> 15
+    const scale = useTransform(smoothProgress, [0, 0.5, 1], [0.5, 1, 15]);
+
+    // Opacity: Fade in quickly at start, fade out by the end
+    const opacity = useTransform(smoothProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
+
+    // Rotation: Natural camera tilt
+    const rotateX = useTransform(smoothProgress, [0, 1], [20, -20]);
+
+    // Depth (Z): Cinematic push
+    const z = useTransform(smoothProgress, [0, 1], [-200, 4000]);
+
+    // Vertical Offset (Y): Smooth lift
+    const y = useTransform(smoothProgress, [0, 1], [300, -300]);
 
     return (
-        <div ref={anchorRef} className="relative h-px w-full pointer-events-none -mt-40">
-            <div className="fixed inset-0 pointer-events-none z-40 flex items-center justify-center overflow-hidden">
+        <div ref={containerRef} className="relative w-full h-[150vh] pointer-events-none z-50 overflow-visible">
+            {/* The 150vh height ensures we have a real scroll duration for the cinematic. */}
+
+            <div className="fixed inset-0 pointer-events-none z-[60] flex items-center justify-center overflow-hidden">
                 <motion.div
                     style={{
                         scale,
@@ -50,21 +54,21 @@ export const TransitionCamera: React.FC = () => {
                     }}
                     className="relative flex flex-col items-center"
                 >
-                    {/* Provided 3D Camera Image */}
+                    {/* The 3D Camera Asset */}
                     <motion.img
                         src="/images/services/3d camera.png"
                         alt="3D Broadcast Camera"
-                        className="w-[450px] lg:w-[600px] h-auto drop-shadow-[0_40px_80px_rgba(0,0,0,0.2)] relative z-10"
+                        className="w-[350px] md:w-[600px] h-auto drop-shadow-[0_50px_100px_rgba(0,0,0,0.1)] relative z-10"
                     />
 
-                    {/* Technical HUD Overlays (SVG) */}
+                    {/* Technical HUD Overlays */}
                     <svg
                         width="800"
                         height="600"
                         viewBox="0 0 800 600"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        className="absolute inset-0 z-20 pointer-events-none"
+                        className="absolute inset-0 z-20 pointer-events-none opacity-60 scale-75 md:scale-100"
                     >
                         {/* Scanning Line HUD */}
                         <motion.line
@@ -74,32 +78,31 @@ export const TransitionCamera: React.FC = () => {
                             transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
                         />
 
-                        {/* Corner Brackets - Industrial Style */}
+                        {/* Corner Brackets */}
                         <path d="M50 50H150M50 50V150" stroke="#a1a1aa" strokeWidth="3" />
                         <path d="M650 50H750M750 50V150" stroke="#a1a1aa" strokeWidth="3" />
                         <path d="M50 550H150M50 550V450" stroke="#a1a1aa" strokeWidth="3" />
                         <path d="M650 550H750M750 550V450" stroke="#a1a1aa" strokeWidth="3" />
 
-                        {/* HUD Labels */}
                         <text x="70" y="40" fill="#71717a" fontSize="10" fontWeight="900" style={{ letterSpacing: '0.2em' }}>UPLINK_PRIMARY: ESTABLISHED</text>
-                        <text x="70" y="580" fill="#ef4444" fontSize="10" fontWeight="900" style={{ letterSpacing: '0.2em' }} opacity="0.8">REC // FGSN_CORE.LIVE</text>
+                        <text x="70" y="580" fill="#ef4444" fontSize="10" fontWeight="900" style={{ letterSpacing: '0.2em' }}>REC // FGSN_CORE.LIVE</text>
                         <text x="650" y="40" fill="#10b981" fontSize="10" fontWeight="900">4K_ULTRA</text>
                     </svg>
 
-                    {/* Telemetry HUD Labels */}
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-12 flex flex-col items-center gap-3">
-                        <div className="h-px w-32 bg-zinc-200/50" />
+                    {/* Telemetry Data HUD Labels */}
+                    <div className="absolute top-[110%] left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 scale-75 md:scale-100 opacity-60">
+                        <div className="h-px w-48 bg-gradient-to-r from-transparent via-zinc-200 to-transparent" />
                         <span className="text-[11px] font-black text-zinc-400 uppercase tracking-[0.8em] whitespace-nowrap">
                             Synchronizing Uplink
                         </span>
-                        <div className="flex gap-8 mt-4">
-                            <div className="flex flex-col items-center">
-                                <span className="text-[9px] font-black text-zinc-300">LATENCY</span>
-                                <span className="text-[12px] font-black text-emerald-500 tabular-nums">14ms</span>
+                        <div className="flex gap-12 mt-4">
+                            <div className="text-center">
+                                <p className="text-[9px] font-black text-zinc-300 uppercase tracking-widest mb-1">LATENCY</p>
+                                <p className="text-[14px] font-black text-emerald-500 tabular-nums">14ms</p>
                             </div>
-                            <div className="flex flex-col items-center">
-                                <span className="text-[9px] font-black text-zinc-300">BITRATE</span>
-                                <span className="text-[12px] font-black text-indigo-500 tabular-nums">480MB/S</span>
+                            <div className="text-center">
+                                <p className="text-[9px] font-black text-zinc-300 uppercase tracking-widest mb-1">BITRATE</p>
+                                <p className="text-[14px] font-black text-indigo-500 tabular-nums">480MB/S</p>
                             </div>
                         </div>
                     </div>

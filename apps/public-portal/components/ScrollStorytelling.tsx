@@ -26,7 +26,7 @@ export const ScrollStorytelling: React.FC<Props> = ({ services }) => {
     useEffect(() => {
         setMounted(true);
         const handleResize = () => setIsMobile(window.innerWidth < 768);
-        handleResize(); // Initial check
+        handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
@@ -36,7 +36,7 @@ export const ScrollStorytelling: React.FC<Props> = ({ services }) => {
         offset: ["start start", "end end"]
     });
 
-    if (!mounted) return <div className="h-[700vh]" />;
+    if (!mounted) return <div className="h-[200vh] bg-white" />;
 
     // Use shorter scroll height on mobile for better performance
     const scrollHeight = isMobile ? "400vh" : "700vh";
